@@ -207,117 +207,114 @@ e nomes de modelos.
 flush
 -----
 
-Returns the database to the state it was in immediately after syncdb was
-executed. This means that all data will be removed from the database, any
-post-synchronization handlers will be re-executed, and the ``initial_data``
-fixture will be re-installed.
+Retorna o banco de dados para o estado que estava, imediatamente depois que syncdb
+foi executado. Isto significa que todos os dados serão removidos do banco de daods, quaisquer
+manipuladores de pós-sincronização serão re-executados, e a fixação ``initial_data``
+será reinstalada.
 
-Use the ``--noinput`` option to suppress all user prompting, such as "Are
-you sure?" confirmation messages. This is useful if ``django-admin.py`` is
-being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, tais como mensagens de
+confirmação "Are you sure?". Isto é útil se ``django-admin.py`` está sendo executado
+como um script aoutônomo.
 
 inspectdb
 ---------
 
-Introspects the database tables in the database pointed-to by the
-``DATABASE_NAME`` setting and outputs a Django model module (a ``models.py``
-file) to standard output.
+Introspecta as tabelas do banco de dados no banco de dados apontado pela
+configuração ``DATABASE_NAME`` e retorna um módulo no modelo Django (um arquivo ``models.py``)
+para a saída padrão.
 
-Use this if you have a legacy database with which you'd like to use Django.
-The script will inspect the database and create a model for each table within
-it.
+Use isto se você tem um banco de dados legacy com o qual você gostaria de usar o Django.
+O script irá inspecionar o banco de dados e criar um modelo para cada tabela dentro dele.
 
-As you might expect, the created models will have an attribute for every field
-in the table. Note that ``inspectdb`` has a few special cases in its field-name
-output:
+Assim como esperado, os modelos criados terão um atributo para cada campo da
+tabela. Note que ``inspectdb`` tem alguns casos especiais em seu campo de nome
+na saída:
 
-* If ``inspectdb`` cannot map a column's type to a model field type, it'll
-  use ``TextField`` and will insert the Python comment
-  ``'This field type is a guess.'`` next to the field in the generated
-  model.
+* Caso ``inspectdb`` não consiga mapear o tipo de uma coluna para um campo de tipo
+  no modelo, ele usará ``TextField`` e irá inserir o comentário Python
+  ``'This field type is a guess.'`` ao lado do campo no modelo gerado.
 
-* If the database column name is a Python reserved word (such as
-  ``'pass'``, ``'class'`` or ``'for'``), ``inspectdb`` will append
-  ``'_field'`` to the attribute name. For example, if a table has a column
-  ``'for'``, the generated model will have a field ``'for_field'``, with
-  the ``db_column`` attribute set to ``'for'``. ``inspectdb`` will insert
-  the Python comment
-  ``'Field renamed because it was a Python reserved word.'`` next to the
-  field.
+* Se o nome da coluna é um nome reservado de Python (Tais como
+  ``'pass'``, ``'class'`` ou ``'for'``), ``inspectdb`` anexará
+  ``'_field'`` ao nome do atributo. Por exemplo, se a tabela tem uma coluna
+  ``'for'``, o modelo gerado terá um campo ``'for_field'``, com o atributo
+  ``db_column`` definido como ``'for'``. ``inspectdb`` irá inserir o
+  comentário Python
+  ``'Field renamed because it was a Python reserved word.'`` ao lado do
+  campo.
 
-This feature is meant as a shortcut, not as definitive model generation. After
-you run it, you'll want to look over the generated models yourself to make
-customizations. In particular, you'll need to rearrange models' order, so that
-models that refer to other models are ordered properly.
+Este recurso foi definido como um atalho, não como um meio definitivo de gerar modelos.
+depois de executá-lo, você deve revisar os modelos gerados para fazer alterações.
+Em particular, você deve reorganizar a ordem dos modelos, para que modelos os quais
+se referem a outros modelos estejam propriamente ordenados.
 
-Primary keys are automatically introspected for PostgreSQL, MySQL and
-SQLite, in which case Django puts in the ``primary_key=True`` where
-needed.
+Chaves primárias são automaticamente introspectadas para PostgreSQL, MySQL e
+SQLite, nesse caso, Django coloca ``primary_key=True`` onde for necessário.
 
-``inspectdb`` works with PostgreSQL, MySQL and SQLite. Foreign-key detection
-only works in PostgreSQL and with certain types of MySQL tables.
+``inspectdb`` funciona com PostgreSQL, MySQL and SQLite. Detecção de chaves
+estrangeiras só funciona em PostgreSQL e com certos tipos de tabelas MySQL.
 
 loaddata <fixture fixture ...>
 ------------------------------
 
-Searches for and loads the contents of the named fixture into the database.
+Procura e carrega o conteúdo da fixture nomeada no banco de dados.
 
-What's a "fixture"?
+O que é uma "fixture"?
 ~~~~~~~~~~~~~~~~~~~
 
-A *fixture* is a collection of files that contain the serialized contents of
-the database. Each fixture has a unique name, and the files that comprise the
-fixture can be distributed over multiple directories, in multiple applications.
+Uma *fixture* é um conjunto de arquivos que contêm o conteúdo do banco de dados
+serializado. Cada fixture tem um nome único, e os arquivos que compõem a fixture
+podem ser distribuidos em vários diretórios, em várias aplicações.
 
-Django will search in three locations for fixtures:
+Django irá procurar em três luagres por fixtures:
 
-1. In the ``fixtures`` directory of every installed application
-2. In any directory named in the ``FIXTURE_DIRS`` setting
-3. In the literal path named by the fixture
+1. No diretório ``fixtures`` de cada aplicação instalada
+2. Em qualquer diretório nomeado na configuração ``FIXTURE_DIRS``
+3. No caminho literal nomeado pela fixture
 
-Django will load any and all fixtures it finds in these locations that match
-the provided fixture names.
+Django carregará todas e qualquer fixtures que encontrar nestes três locais
+as quais correspondem aos nomes fornecidos.
 
-If the named fixture has a file extension, only fixtures of that type
-will be loaded. For example::
+Caso a fixture nomeada possui uma extensão de arquivo, apenas fixtures daquele tipo
+serão carregadas. Por exemplo::
 
     django-admin.py loaddata mydata.json
 
-would only load JSON fixtures called ``mydata``. The fixture extension
-must correspond to the registered name of a
-serializer (e.g., ``json`` or ``xml``). For more on serializers, see the Django
+apenas carregará fixtures JSON chamadas ``mydata``. A extensão da fixture
+deve corresponder ao nome registrado de um serializador
+(e.g., ``json`` or ``xml``). Para mais sobre serializadores, consulte o Django
 docs.
 
-If you omit the extensions, Django will search all available fixture types
-for a matching fixture. For example::
+Se você omitir as extensões, Django irá procurar todos os tipos de fixture disponíveis
+por uma fixture correspondente. Por exemplo::
 
     django-admin.py loaddata mydata
 
-would look for any fixture of any fixture type called ``mydata``. If a fixture
-directory contained ``mydata.json``, that fixture would be loaded
-as a JSON fixture.
+irá procurar por qualquer fixture de qualquer tipo chamada ``mydata``. Caso
+um diretório de fixtures contenha ``mydata.json``, essa fixture será carregada
+como uma fixture JSON.
 
-The fixtures that are named can include directory components. These
-directories will be included in the search path. For example::
+As fixtures nomeadas podem incluir componentes de diretório. Estes
+diretórios serão incluidos no caminho da busca. Por exemplo::
 
     django-admin.py loaddata foo/bar/mydata.json
 
-would search ``<appname>/fixtures/foo/bar/mydata.json`` for each installed
-application,  ``<dirname>/foo/bar/mydata.json`` for each directory in
-``FIXTURE_DIRS``, and the literal path ``foo/bar/mydata.json``.
+irá procurar ``<appname>/fixtures/foo/bar/mydata.json`` para cada aplicação
+instalada,  ``<dirname>/foo/bar/mydata.json`` para cada diretório em
+``FIXTURE_DIRS``, e o caminho literal ``foo/bar/mydata.json``.
 
-When fixture files are processed, the data is saved to the database as is.
-Model defined ``save`` methods and ``pre_save`` signals are not called.
+Quando arquivos fixture são prcessados, os dados são salvos no banco de dados como estão.
+Métodos definidos pelo modelo ``save`` e sinais ``pre_save`` não são chamados.
 
-Note that the order in which fixture files are processed is undefined. However,
-all fixture data is installed as a single transaction, so data in
-one fixture can reference data in another fixture. If the database backend
-supports row-level constraints, these constraints will be checked at the
-end of the transaction.
+Note que a ordem em que cada arquivo fixture é processado não é definida. Porém,
+todos os dados da fixture são instalados como uma transação única, para que os
+dados de uma fixture possam referenciar dados de outra fixture. Se o banco de dados backend
+suporta restrições de nivel de linha, estas restrições serão checadas ao fim da
+transação.
 
-The ``dumpdata`` command can be used to generate input for ``loaddata``.
+O comando ``dumpdata`` pode ser usado para gerar entradas para ``loaddata``.
 
-Compressed fixtures
+Fixtures comprimidas
 ~~~~~~~~~~~~~~~~~~~
 
 Fixtures may be compressed in ``zip``, ``gz``, or ``bz2`` format. For example::
