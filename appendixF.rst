@@ -314,106 +314,106 @@ transação.
 
 O comando ``dumpdata`` pode ser usado para gerar entradas para ``loaddata``.
 
-Fixtures comprimidas
+Fixtures compactadas
 ~~~~~~~~~~~~~~~~~~~
 
-Fixtures may be compressed in ``zip``, ``gz``, or ``bz2`` format. For example::
+Fixtures podem ser compactadas em formato ``zip``, ``gz``, or ``bz2``. Por exemplo::
 
     django-admin.py loaddata mydata.json
 
-would look for any of ``mydata.json``, ``mydata.json.zip``,
-``mydata.json.gz``, or ``mydata.json.bz2``.  The first file contained within a
-zip-compressed archive is used.
+irá procurar por qualquer ``mydata.json``, ``mydata.json.zip``,
+``mydata.json.gz``, ou ``mydata.json.bz2``. O primeiro arquivo contido em
+um arquivo compactado em formato zip é usado.
 
-Note that if two fixtures with the same name but different
-fixture type are discovered (for example, if ``mydata.json`` and
-``mydata.xml.gz`` were found in the same fixture directory), fixture
-installation will be aborted, and any data installed in the call to
-``loaddata`` will be removed from the database.
+Note que se duas fixtures com o mesmo nome mas com tipos de fixtures
+diferentes forem encontradas (por exemplo, se ``mydata.json`` e
+``mydata.xml.gz`` forem encontradas no mesmo diretório de fixtures),
+a instalação de fixtures será abortada, e qualquer dados instalados na chamada de
+``loaddata`` serão removidos do banco de dados.
 
-.. admonition:: MySQL and Fixtures
+.. advertência:: MySQL e Fixtures
 
-    Unfortunately, MySQL isn't capable of completely supporting all the
-    features of Django fixtures. If you use MyISAM tables, MySQL doesn't
-    support transactions or constraints, so you won't get a rollback if
-    multiple fixture files are found, or validation of fixture data fails.
+    Infelizmente, MySQL não é capaz de prover suporte completo a todos os
+    recursos das fixtures de Django. Se você usa tabelas MyISAM, MySQL não
+    suporta transações ou restrições, então você não vai ter um rollback caso
+    vários arquivos de fixtures sejam encontrados, ou a validação dos dados das fixtures falhar.
 
-    If you use InnoDB tables, you won't be able to have any forward
-    references in your data files -- MySQL doesn't provide a mechanism to
-    defer checking of row constraints until a transaction is committed.
+    Se você usa tabelas InnoDB, você não será capaz de ter quaisquer referências
+    à frente em seus arquivos de dados -- MySQL não fornece um mecanismo para
+    deferir a verificação de restrições de linha até que a transação seja concluida.
 
 makemessages
 ------------
 
-Runs over the entire source tree of the current directory and pulls out all
-strings marked for translation. It creates (or updates) a message file in the
-conf/locale (in the django tree) or locale (for project and application)
-directory. After making changes to the messages files you need to compile them
-with ``compilemessages`` for use with the builtin gettext support. See Chapter
-19 for details.
+Percorre toda a árvore fonte do diretório atual e tira todas as
+strings marcadas para tradução. Isto cria (ou atualiza) o arquivo de mensagens em
+conf/locale (na árvore django) ou no diretório locale (para projeto e aplicações).
+Após fazer mudanças aos arquivos de mensagens você precisa compilá-los
+com ``compilemessages`` para uso com o suporte gettext imbutido. Veja Capítulo
+19 para detalhes.
 
 --all
 ~~~~~
 
-Use the ``--all`` or ``-a`` option to update the message files for all
-available languages.
+Use a opção ``--all`` ou ``-a`` para atualizar os arquivos de mensagens de todas
+as linguagens disponiveis.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py makemessages --all
 
 --extension
 ~~~~~~~~~~~
 
-Use the ``--extension`` or ``-e`` option to specify a list of file extensions
-to examine (default: ".html").
+Use a opção ``--extension`` ou ``-e`` para especificar uma lista de extensões de arquivos
+a serem examinadas (padrão: ".html").
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py makemessages --locale=de --extension xhtml
 
-Separate multiple extensions with commas or use -e or --extension multiple times::
+Separe multiplas extensões com vírgulas ou use -e ou --extension multiplas vezes::
 
     django-admin.py makemessages --locale=de --extension=html,txt --extension xml
 
 --locale
 ~~~~~~~~
 
-Use the ``--locale`` or ``-l`` option to specify the locale to process.
+Use a opção ``--locale`` ou ``-l`` para especificar o lacal do processo.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py makemessages --locale=br_PT
 
 --domain
 ~~~~~~~~
 
-Use the ``--domain`` or ``-d`` option to change the domain of the messages files.
-Currently supported:
+Use a opção ``--domain`` ou ``-d`` para mudar o dominio dos arquivos de mensagens.
+Atualmente suportados:
 
-* ``django`` for all ``*.py`` and ``*.html`` files (default)
-* ``djangojs`` for ``*.js`` files
+* ``django`` para todos arquivos ``*.py`` e ``*.html`` (padrão)
+* ``djangojs`` para arquivos ``*.js``
 
 .. _django-admin-reset:
 
 reset <appname appname ...>
 ---------------------------
 
-Executes the equivalent of ``sqlreset`` for the given app name(s).
+Executa o equivalente a ``sqlreset`` para o dado nome da aplicação(ões).
 
 --noinput
 ~~~~~~~~~
 
-Use the ``--noinput`` option to suppress all user prompting, such as
-"Are you sure?" confirmation messages. This is useful if ``django-admin.py``
-is being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, tais como
+mensagens de confirmação "Are you sure?". Isto é útil caso ``django-admin.py``
+esteja sendo executado como um script autônomo.
 
 runfcgi [options]
 -----------------
 
-Starts a set of FastCGI processes suitable for use with any Web server that
-supports the FastCGI protocol. See Chapter 12 for details. Requires the Python
-FastCGI module from flup: http://www.saddi.com/software/flup/
+Inicia uma série de processos FastCGI apropriados para o uso com qualquer servidor Web que
+dê suporte ao protocolo FastCGI. Veja o Capítulo 12 para detalhes. Requer o módulo Python
+FastCGI de flup: http://www.saddi.com/software/flup/
 
 runserver
 ---------
