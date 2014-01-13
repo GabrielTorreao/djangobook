@@ -33,177 +33,176 @@ arquivos de definição do Django.
 Os exemplos de linha de comando neste apêndice usam ``django-admin.py`` para
 ser consistente, mas qualquer exemplopode usar ``manage.py`` da mesma forma.
 
-Usage
+Uso
 =====
 
-Here's how to use it::
+Veja como usá-lo::
 
     django-admin.py <subcommand> [options]
     manage.py <subcommand> [options]
 
-``subcommand`` should be one of the subcommands listed in this appendix.
-``options``, which is optional, should be zero or more of the options available
-for the given subcommand.
+``subcommand`` deve ser um dos subcomandos listados neste apêndice.
+``options``, o qual é opicional, deve ser zero ou mais das opções disponiveis
+para o subcomando dado.
 
-Getting runtime help
+Obtendo ajuda em tempo de execução
 --------------------
 
-Run ``django-admin.py help`` to display a list of all available subcommands.
-Run ``django-admin.py help <subcommand>`` to display a description of the
-given subcommand and a list of its available options.
+Rode ``django-admin.py help`` para exibir uma lista de todos os subcomandos disponíveis.
+Rode ``django-admin.py help <subcommand>`` para exibir uma descrição do
+subcomando dado e uma lista de suas opções disponíveis.
 
 App names
 ---------
 
-Many subcommands take a list of "app names." An "app name" is the basename of
-the package containing your models. For example, if your ``INSTALLED_APPS``
-contains the string ``'mysite.blog'``, the app name is ``blog``.
+Muitos subcomandos recebem uma lista de "app names." Um "app name" é o nome base do
+pacote contendo seus modelos. Por exemplo, se seu ``INSTALLED_APPS``
+contém a string ``'mysite.blog'``, o app name será ``blog``.
 
-Determining the version
+Determinando a versão
 -----------------------
 
-Run ``django-admin.py --version`` to display the current Django version.
+Rode ``django-admin.py --version`` para exibir a versão atual do Django.
 
-Examples of output::
+Exemplos de saída::
 
     1.1
     1.0
     0.96
     0.97-pre-SVN-6069
 
-Displaying debug output
+Exibindo saídas de debug
 -----------------------
 
-Use ``--verbosity`` to specify the amount of notification and debug information
-that ``django-admin.py`` should print to the console.
+Use ``--verbosity`` para especificar a quantidade de notificações e informação de debug
+que ``django-admin.py`` deve imprimir no console.
 
-Available subcommands
+Subcomandos disponíveis
 =====================
 
 cleanup
 -------
 
-Can be run as a cronjob or directly to clean out old data from the database
-(only expired sessions at the moment).
+Pode ser executado como um cronjob ou diretamente para limpar dados antigos do banco de dados
+(apenas sessões expiradas no momento).
 
 compilemessages
 ---------------
 
-Compiles .po files created with ``makemessages`` to .mo files for use with
-the builtin gettext support. See Chapter 19.
+Compila .po arquivos criados com ``makemessages`` para .mo arquivos para uso com
+o suorte gettext embutido. Veja o capítulo 19.
 
 --locale
 ~~~~~~~~
 
-Use the ``--locale`` or ``-l`` option to specify the locale to process.
-If not provided all locales are processed.
+Use a opção ``--locale`` ou ``-l`` para especificar o local do processo.
+Caso não seja fornecido, todos os locais são processados.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py compilemessages --locale=br_PT
 
 createcachetable
 ----------------
 
-Creates a cache table with a given name for use with the database cache
-backend. See Chapter 15.
+Cria uma tabela de cache com o nome fornecido para uso com a cache do banco de dados
+backend. Veja o Capítulo 15.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py createcachetable my_cache_table
 
 createsuperuser
 ---------------
 
-Creates a superuser account (a user who has all permissions). This is
-useful if you need to create an initial superuser account but did not
-do so during ``syncdb``, or if you need to programmatically generate
-superuser accounts for your site(s).
+Cria uma conta de supeusuário (um usuário que tem todas as permissões). Isto é
+útil se você precisa criar uma conta de superusuário inicial porém não
+o fêz durante ``syncdb``, ou se você precisa gerar programaticamnete contas de superusuário
+para o seu site(s).
 
-When run interactively, this command will prompt for a password for
-the new superuser account. When run non-interactively, no password
-will be set, and the superuser account will not be able to log in until
-a password has been manually set for it.
+Quando executado de forma interativa, este comando irá solicitar uma senha para
+a nova conta de superusuário. Quando executado de forma não-interativa, nenhuma senha
+será definida, e a conta de superusuário não será capaz de conectar até que
+uma senha seja manualmente definida para ela.
 
-The username and e-mail address for the new account can be supplied by
-using the ``--username`` and ``--email`` arguments on the command
-line. If either of those is not supplied, ``createsuperuser`` will prompt for
-it when running interactively.
+O nome de usuário e o endereço de e-mail da nova conta podem ser fornecidos
+usando os argumentos ``--username`` e ``--email`` na linha de
+comando. Se algum dos dois não for fornecido, ``createsuperuser`` irá solicitá-los
+quando estiver executando de forma interativa.
 
-This command is only available if Django's authentication system
-(``django.contrib.auth``) is in ``INSTALLED_APPS``. See Chapter 14.
+Este comando só vais estar disponível se o sistema de autenticação do Django
+(``django.contrib.auth``) estiver em ``INSTALLED_APPS``. Veja o Capítulo 14.
 
 dbshell
 -------
 
-Runs the command-line client for the database engine specified in your
-``DATABASE_ENGINE`` setting, with the connection parameters specified in your
-``DATABASE_USER``, ``DATABASE_PASSWORD``, etc., settings.
+Executa o cliente da linha de comando para o engine de banco de dados especificado na sua
+configuraçõa ``DATABASE_ENGINE``, com os parâmetros de conexão especificados nas suas configurações
+``DATABASE_USER``, ``DATABASE_PASSWORD``, etc.
 
-* For PostgreSQL, this runs the ``psql`` command-line client.
-* For MySQL, this runs the ``mysql`` command-line client.
-* For SQLite, this runs the ``sqlite3`` command-line client.
+* Para PostgreSQL, isso executa o cliente da linha de comando ``psql``.
+* Para MySQL, isso executa o cliente da linha de comando ``mysql``.
+* Para SQLite, isso executa o cliente da linha de comando ``sqlite3``.
 
-This command assumes the programs are on your ``PATH`` so that a simple call to
-the program name (``psql``, ``mysql``, ``sqlite3``) will find the program in
-the right place. There's no way to specify the location of the program
-manually.
+Este comando assume que os programas estão em seu ``PATH`` Tal que uma simples chamada para
+o nome do programa (``psql``, ``mysql``, ``sqlite3``) irá encontrar o programa no
+local correto. Não há nenhuma maneira de especificar o local do programa
+manualmente.
 
 diffsettings
 ------------
 
-Displays differences between the current settings file and Django's default
-settings.
+Exibe as diferenças entre o atual arquivo de configurações e o arquivo de configurações
+padrão do Django.
 
-Settings that don't appear in the defaults are followed by ``"###"``. For
-example, the default settings don't define ``ROOT_URLCONF``, so
-``ROOT_URLCONF`` is followed by ``"###"`` in the output of ``diffsettings``.
+Configurações que não aparecem no padrão são seguidas por ``"###"``. Por
+exemplo, a configuração padrão não define ``ROOT_URLCONF``, então
+``ROOT_URLCONF`` é seguido por ``"###"`` na saída de ``diffsettings``.
 
-Note that Django's default settings live in ``django/conf/global_settings.py``,
-if you're ever curious to see the full list of defaults.
+Note que as configurações padrão do Django estão em ``django/conf/global_settings.py``,
+Se você tiver a curiosidade de ver a lista completa de padrões.
 
 dumpdata
 --------
 
-Outputs to standard output all data in the database associated with the named
-application(s).
+Encaminha para a saída padrão todos os dados no banco de dados associados à aplicação
+nomeada.
 
-If no application name is provided, all installed applications will be dumped.
+Se nenhum nome de aplicação for fornecido, todos os aplicativos instalados serão despejados.
 
-The output of ``dumpdata`` can be used as input for ``loaddata``.
+A saída de ``dumpdata`` pode ser usada como entrada para ``loaddata``.
 
-Note that ``dumpdata`` uses the default manager on the model for selecting the
-records to dump. If you're using a custom manager as the default manager and it
-filters some of the available records, not all of the objects will be dumped.
+Note que ``dumpdata`` usa o gerenciador padrão no modelo para selecionar os
+registros a serem exportados. Se você estiver usando um gerenciador personalizado como gerenciador padrão
+o qual filtra alguns dos registros disponíveis, nem todos os objetos serão despejados.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py dumpdata books
 
-Use the ``--exclude`` option to exclude a specific application from the
-applications whose contents are output. For example, to specifically exclude
-the `auth` application from the output, you would call::
+Use a opção ``--exclude`` para excuir um aplicativo específico das aplicações
+cujos conteúdos são de saída. Por exemplo, para excluir especificamente
+o aplicativo `auth` da saída, você chamaria::
 
     django-admin.py dumpdata --exclude=auth
 
-If you want to exclude multiple applications, use multiple ``--exclude``
-directives::
+Se você quiser excluir várias aplicações, use multiplas diretrizes ``--exclude``::
 
     django-admin.py dumpdata --exclude=auth --exclude=contenttypes
 
-By default, ``dumpdata`` will format its output in JSON, but you can use the
-``--format`` option to specify another format. Currently supported formats
-are listed in :ref:`serialization-formats`.
+Por padrão, ``dumpdata`` irá formatar sua saída em JSON, porém você pode usar
+a opção ``--format`` para especificar outro formato. Formatos suportados atualmente
+estão listados em :ref:`serialization-formats`.
 
-By default, ``dumpdata`` will output all data on a single line. This isn't
-easy for humans to read, so you can use the ``--indent`` option to
-pretty-print the output with a number of indentation spaces.
+Por padrão, ``dumpdata`` irá imprimir todos os dados de saída em uma única linha. Isto não é
+fácil para pessoas ler, então você pode usar a opção ``--indent`` para imprimir a saída
+de maneira organizada com um número de espaços de identação.
 
-In addition to specifying application names, you can provide a list of
-individual models, in the form of ``appname.Model``. If you specify a model
-name to ``dumpdata``, the dumped output will be restricted to that model,
-rather than the entire application. You can also mix application names and
-model names.
+Além de especificar os nomes dos aplicativos, você pode fornecer uma lista
+de modelos individuais, na forma de ``appname.Model``. Se você especificar o nome
+de um modelo para ``dumpdata``, a saída extraida será restringida a este modelo,
+em vez de toda a aplicação. Você também pode misturar nomes de aplicativos
+e nomes de modelos.
 
 flush
 -----
