@@ -525,204 +525,201 @@ sqlcustom <appname appname ...>
 
 Prints the custom SQL statements for the given app name(s).
 
-For each model in each specified app, this command looks for the file
-``<appname>/sql/<modelname>.sql``, where ``<appname>`` is the given app name and
-``<modelname>`` is the model's name in lowercase. For example, if you have an
-app ``news`` that includes a ``Story`` model, ``sqlcustom`` will attempt
-to read a file ``news/sql/story.sql`` and append it to the output of this
-command.
+Para cada modelo em cada aplicativo especificado, este comando procura pelo arquivo
+``<appname>/sql/<modelname>.sql``, onde ``<appname>`` é o nome do aplicativo dado e
+``<modelname>`` é o nome do modelo em letras minúsculas. Por exemplo, se você tem um
+aplicativo ``news`` o qual inclui um modelo ``Story``, ``sqlcustom`` vai tentar ler
+um arquivo ``news/sql/story.sql`` e anexá-lo à saída deste comando.
 
-Each of the SQL files, if given, is expected to contain valid SQL. The SQL
-files are piped directly into the database after all of the models'
-table-creation statements have been executed. Use this SQL hook to make any
-table modifications, or insert any SQL functions into the database.
+Cada um dos arquivos SQL, caso fornecidos, devem conter SQL válido. Os arquivos SQL
+são alimentados à base de dados após todas as declarações de criação de tebelas dos
+modelos tenham sido executadas. Use este atalho do SQL para fazer modificações em tabelas,
+ou inserir qualquer função SQL no banco de dados.
 
-Note that the order in which the SQL files are processed is undefined.
+Note que a ordem em que os arquivos SQL são processados é indefinida.
 
 sqlflush
 --------
 
-Prints the SQL statements that would be executed for the `flush`_ command.
+Imprime as declarações SQL que seriam executadas para o comando `flush`_.
 
 sqlindexes <appname appname ...>
 --------------------------------
 
-Prints the CREATE INDEX SQL statements for the given app name(s).
+Imprime as declerações SQL CREATE INDEX para o nome do aplicativo(s) fornecido.
 
 sqlreset <appname appname ...>
 ------------------------------
 
-Prints the DROP TABLE SQL, then the CREATE TABLE SQL, for the given app name(s).
+Imprime o DROP TABLE SQL, depois o CREATE TABLE SQL, para o nome do aplicativo(s) fornecido.
 
 sqlsequencereset <appname appname ...>
 --------------------------------------
 
-Prints the SQL statements for resetting sequences for the given app name(s).
+Imprime as declarações SQL para redefinição de sequências para o nome do aplicativo(s) fornecido.
 
 startapp <appname>
 ------------------
 
-Creates a Django app directory structure for the given app name in the current
-directory.
+Cria uma estrutura de diretório para um aplicativo Django para o nome do aplicativo dado no
+diretório atual.
 
 startproject <projectname>
 --------------------------
 
-Creates a Django project directory structure for the given project name in the
-current directory.
+Cria uma estrutura de diretório para um projeto Django para o nome do projeto dado no
+diretório atual.
 
-This command is disabled when the ``--settings`` option to
-``django-admin.py`` is used, or when the environment variable
-``DJANGO_SETTINGS_MODULE`` has been set. To re-enable it in these
-situations, either omit the ``--settings`` option or unset
+Este comando é disabilitado quando a opção ``--settings`` para
+``django-admin.py`` for usada, ou quando a variável de ambiente
+``DJANGO_SETTINGS_MODULE`` for ativada. Para reabilitá-lo nestas
+situações, omita a opção ``--settings`` ou desative a variável
 ``DJANGO_SETTINGS_MODULE``.
 
 syncdb
 ------
 
-Creates the database tables for all apps in ``INSTALLED_APPS`` whose tables
-have not already been created.
+Cria todas as tabelas de banco de dados para todos os aplicativos em ``INSTALLED_APPS`` cujas tabelas
+ainda não foram criadas.
 
-Use this command when you've added new applications to your project and want to
-install them in the database. This includes any apps shipped with Django that
-might be in ``INSTALLED_APPS`` by default. When you start a new project, run
-this command to install the default apps.
+Use este comando quando você adicionar novos aplicativos em seu projeto e queira
+instalá-los no banco de dados. Isto inclui quaisquer aplicativos fornecidos com o Django que
+podem estar em ``INSTALLED_APPS`` por padrão. Quando você iniciar um novo projeto, execute
+este comando para instalar os aplicativos padrão.
 
-.. admonition:: Syncdb will not alter existing tables
+.. advertência:: Syncdb não alterará tabelas existentes
 
-   ``syncdb`` will only create tables for models which have not yet been
-   installed. It will *never* issue ``ALTER TABLE`` statements to match
-   changes made to a model class after installation. Changes to model classes
-   and database schemas often involve some form of ambiguity and, in those
-   cases, Django would have to guess at the correct changes to make. There is
-   a risk that critical data would be lost in the process.
+   ``syncdb`` apenas criará tabelas para os modelos que ainda não foram
+   instalados. Ele nunca vai emitir declarações ``ALTER TABLE`` para coincidir
+   alterações feitas em uma classe modelo após a sua instalação. Mudanças em classes modelo
+   e esquemas de bancos de dados, muitas vezes envolvem alguma forma de ambiguidade and, nestes
+   casos, Django teria que adivinhar as mudanças corretas a fazer. Existe um risco
+   que dados críticos podem ser perdidos durante o processo.
 
-   If you have made changes to a model and wish to alter the database tables
-   to match, use the ``sql`` command to display the new SQL structure and
-   compare that to your existing table schema to work out the changes.
+   Se você fez mudanças em um modelo e quiser alterar as tabelas do banco de dados
+   para coincidir a informação, use o comando ``sql`` para exibir a nova estrutura SQL e
+   compará-la com seu esquema de tabelas existente para resolver as diferenças.
 
-If you're installing the ``django.contrib.auth`` application, ``syncdb`` will
-give you the option of creating a superuser immediately.
+Se você está instalando a aplicação ``django.contrib.auth``, ``syncdb``
+vai lhe dar a opção de criar um superusuário imediatamente.
 
-``syncdb`` will also search for and install any fixture named ``initial_data``
-with an appropriate extension (e.g. ``json`` or ``xml``). See the
-documentation for ``loaddata`` for details on the specification of fixture
-data files.
+``syncdb`` também vai procurar e instalar qualquer fixture chamada ``initial_data``
+com uma extensão apropriada (e.g. ``json`` or ``xml``).Veja a documentação
+para ``loaddata`` para obter detalhes sobre a especificação de arquivos de dados
+fixture.
 
 --noinput
 ~~~~~~~~~
 
-Use the ``--noinput`` option to suppress all user prompting, such as
-"Are you sure?" confirmation messages. This is useful if ``django-admin.py``
-is being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, tais como
+mensagens de confirmação "Are you sure?". Isto é útil se ``django-admin.py``
+está sendo executado como um script autônomo.
 
 test
 ----
 
-Runs tests for all installed models. See the Django documentation for more
-on testing.
+Roda teste para todos os modelos instalados. Consulte a documentação do Djando para
+mais informações sobre testes.
 
 --noinput
 ~~~~~~~~~
 
-Use the ``--noinput`` option to suppress all user prompting, such as
-"Are you sure?" confirmation messages. This is useful if ``django-admin.py``
-is being executed as an unattended, automated script.
+Use a opção ``--noinput`` para suprimir todo prompt ao usuário, tais como
+mensagens de confirmação "Are you sure?". Isto é útil se ``django-admin.py``
+está sendo executado como um script autônomo.
 
 testserver <fixture fixture ...>
 --------------------------------
 
-Runs a Django development server (as in ``runserver``) using data from the
-given fixture(s).
+Executa um servidor de desenvolvimento Django (assim como ``runserver``) usando dados da
+fixture(s) dadas.
 
-For more, see the Django documentation.
+Para mais informações, Consulte a documentaçãos do Django.
 
 validate
 --------
 
-Validates all installed models (according to the ``INSTALLED_APPS`` setting)
-and prints validation errors to standard output.
+Valida todos os modelos instalados (de acordo com as configurações ``INSTALLED_APPS``)
+e imprime os erros de validação para a saída padrão.
 
-Default options
+Opções padrão
 ===============
 
-Although some subcommands may allow their own custom options, every subcommand
-allows for the following options:
+Apesar de alguns subcomandos permitirem suas próprias opções customizadas, todos subcomandos
+permitem as seguintes opções:
 
 --pythonpath
 ------------
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py syncdb --pythonpath='/home/djangoprojects/myproject'
 
-Adds the given filesystem path to the Python import search path. If this
-isn't provided, ``django-admin.py`` will use the ``PYTHONPATH`` environment
-variable.
+Adiciona o caminho de sistema dado ao caminho de busca de importção do Python. Caso isto
+não seja providenciado, ``django-admin.py`` usará a variável de ambiente ``PYTHONPATH``.
 
-Note that this option is unnecessary in ``manage.py``, because it takes care of
-setting the Python path for you.
+Note que esta opção é desnecessária em ``manage.py``, porque ele cuida de definir o caminho
+do Python para você.
 
 --settings
 ----------
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py syncdb --settings=mysite.settings
 
-Explicitly specifies the settings module to use. The settings module should be
-in Python package syntax, e.g. ``mysite.settings``. If this isn't provided,
-``django-admin.py`` will use the ``DJANGO_SETTINGS_MODULE`` environment
-variable.
+Especifica explicitamente o módulo de configurações a ser usado. O módulo de configurações
+deve estar em sintaxe Python package, e.g. ``mysite.settings``. Se isto não for providenciado,
+``django-admin.py`` usará a variável de ambiente ``DJANGO_SETTINGS_MODULE``.
 
-Note that this option is unnecessary in ``manage.py``, because it uses
-``settings.py`` from the current project by default.
+Note que esta opção é desnecessária em ``manage.py``, porque ele usa
+``settings.py`` do projeto atual por padrão.
 
 --traceback
 -----------
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py syncdb --traceback
 
-By default, ``django-admin.py`` will show a simple error message whenever an
-error occurs. If you specify ``--traceback``, ``django-admin.py``  will
-output a full stack trace whenever an exception is raised.
+Por padrão, ``django-admin.py`` irá mostrar uma mensagen de erro simples quando
+um erro ocorre. Se você especificar ``--traceback``, ``django-admin.py``  irá
+imprimir um rastreamento de pilha completo sempre que uma exeção for levantada.
 
 --verbosity
 -----------
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py syncdb --verbosity 2
 
-Use ``--verbosity`` to specify the amount of notification and debug information
-that ``django-admin.py`` should print to the console.
+Use ``--verbosity`` para especificar a quantidade de notificações e informação de debuging
+que ``django-admin.py`` deve imprimir no console.
 
-* ``0`` means no output.
-* ``1`` means normal output (default).
-* ``2`` means verbose output.
+* ``0`` significa nenhuma saída.
+* ``1`` significa saída norma (padrão).
+* ``2`` significa saída verbose.
 
-Extra niceties
+Sutilezas extras
 ==============
 
-Syntax coloring
+Colorindo a sintaxe
 ---------------
 
-The ``django-admin.py`` / ``manage.py`` commands that output SQL to standard
-output will use pretty color-coded output if your terminal supports
-ANSI-colored output. It won't use the color codes if you're piping the
-command's output to another program.
+O comando ``django-admin.py`` / ``manage.py`` que imprime saída SQL para
+saída padrão, usará saída codificada em cores se o seu terminal tem suporte para
+saída ANSI colorida. Ele não vai usar o código de cores se você estiver alimentando
+a saída do comando para outro programa.
 
 Bash completion
 ---------------
 
-If you use the Bash shell, consider installing the Django bash completion
-script, which lives in ``extras/django_bash_completion`` in the Django
-distribution. It enables tab-completion of ``django-admin.py`` and
-``manage.py`` commands, so you can, for instance...
+Se você usar o Bash shell, considere instalar o script do Django bash completion,
+o qual está dentro de ``extras/django_bash_completion`` na distribuição do Django.
+Ele ativa tab-completion dos comandos ``django-admin.py`` e ``manage.py``,
+e então você pode, por exemplo...
 
-* Type ``django-admin.py``.
-* Press [TAB] to see all available options.
-* Type ``sql``, then [TAB], to see all available options whose names start
-  with ``sql``.
+* Digitar ``django-admin.py``.
+* Apertar [TAB] para ver todas as opções disponíveis.
+* Digitar ``sql``, depois apertar [TAB], para ver todas as opções disponíveis cujos nomes
+  começam com ``sql``.
