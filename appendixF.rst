@@ -418,108 +418,107 @@ FastCGI de flup: http://www.saddi.com/software/flup/
 runserver
 ---------
 
-Starts a lightweight development Web server on the local machine. By default,
-the server runs on port 8000 on the IP address 127.0.0.1. You can pass in an
-IP address and port number explicitly.
+Inicia um servidor Web leve de desenvolvimento na máquina local. Por padrão,
+o servidor é executado na porta 8000 com o endereço de IP 127.0.0.1. Você pode fornecer
+um endereço de IP e um número de porta explicitamente.
 
-If you run this script as a user with normal privileges (recommended), you
-might not have access to start a port on a low port number. Low port numbers
-are reserved for the superuser (root).
+Se você executar este script como um usuário com restrições normais (recomendado), você
+pode não ter acesso a começar uma porta em um número de porta baixo. Números de porta baixos
+são reservados ao superusuário (raiz).
 
-DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through
-security audits or performance tests. (And that's how it's gonna stay. We're in
-the business of making Web frameworks, not Web servers, so improving this
-server to be able to handle a production environment is outside the scope of
-Django.)
+NÂO USE ESTE SERVIDOR EM UM AMBIENTE DE PRODUÇÂO. Ele não passou por auditorias
+de segurança ou testes de desempenho. (E é assim que ele vai ficar. Nós estamos
+no negócio de fazer frameworks para Web, não servidores Web, assim melhorar este
+servidor para que ele seja capaz de lidar com um ambiente de produção está fora
+do âmbito do Django.)
 
-The development server automatically reloads Python code for each request, as
-needed. You don't need to restart the server for code changes to take effect.
+O servidor de desenvolvimento recarrega automaticamente o código Python para cada solicitação,
+caso seja necessário. Você não precisa reiniciar o servidor para mudanças de código entrarem em efeito.
 
-When you start the server, and each time you change Python code while the
-server is running, the server will validate all of your installed models. (See
-the ``validate`` command below.) If the validator finds errors, it will print
-them to standard output, but it won't stop the server.
+Quando você iniciar o servidor, e a cada vez que você alterar o código Python enquanto
+o servidor estiver executando, o servidor irá validar todos os seus modelos instalados. (Veja
+o comando ``validate`` abaixo.) Se o validador encontrar erros, ele irá imprimi-los
+para a saída padrão, mas não vai parar o servidor.
 
-You can run as many servers as you want, as long as they're on separate ports.
-Just execute ``django-admin.py runserver`` more than once.
+Você pode executar quantos servidores você quiser, desde que eles estejam em portas diferentes.
+Apenas execute ``django-admin.py runserver`` mais de uma vez.
 
-Note that the default IP address, 127.0.0.1, is not accessible from other
-machines on your network. To make your development server viewable to other
-machines on the network, use its own IP address (e.g. ``192.168.2.1``) or
-``0.0.0.0`` (which you can use if you don't know what your IP address is
-on the network).
+Note que o endereço IP padrão, 127.0.0.1, Não é acessível a partir de outras
+máquinas na sua rede. Para fazer seu servidor de desenvolvimento visível a
+outras máquinas na sua rede, use seu próprio endereço IP (e.g. ``192.168.2.1``) ou
+``0.0.0.0`` (O qual você pode usar se você não sabe qual é o endereço IP da
+sua rede).
 
-Use the ``--adminmedia`` option to tell Django where to find the various CSS
-and JavaScript files for the Django admin interface. Normally, the development
-server serves these files out of the Django source tree magically, but you'd
-want to use this if you made any changes to those files for your own site.
+Use a opção ``--adminmedia`` para indicar ao Django onde encontrar vários arquivos
+CSS e JavaScript para a interface de administração do Django. Normalmente, o servidor
+de desenvolvimento serve estes arquivos da árvore fonte do Django magicamente, mas você
+gostaria de usar isto se você fizesse alguma mudança nestes arquivos para o seu site.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py runserver --adminmedia=/tmp/new-admin-style/
 
-Use the ``--noreload`` option to disable the use of the auto-reloader. This
-means any Python code changes you make while the server is running will *not*
-take effect if the particular Python modules have already been loaded into
-memory.
+Use a opção ``--noreload`` para desativer o auto-reloader. Isto significa
+que qualquer mudança que você fizer no código Python enquanto o servidor estiver em execução
+*não* tomarão efeito se os módulos Python em particular já foram carregados na memória.
 
-Example usage::
+Exemplo de uso::
 
     django-admin.py runserver --noreload
 
-Examples of using different ports and addresses
+Exemplos usando diferentes portas e endereços
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Port 8000 on IP address 127.0.0.1::
+Porta 8000 no endereço IP 127.0.0.1::
 
 	django-admin.py runserver
 
-Port 8000 on IP address 1.2.3.4::
+Porta 8000 no endereço IP 1.2.3.4::
 
 	django-admin.py runserver 1.2.3.4:8000
 
-Port 7000 on IP address 127.0.0.1::
+Porta 7000 no endereço IP 127.0.0.1::
 
     django-admin.py runserver 7000
 
-Port 7000 on IP address 1.2.3.4::
+Porta 7000 no endereço IP 1.2.3.4::
 
     django-admin.py runserver 1.2.3.4:7000
 
-Serving static files with the development server
+Servindo arquivos estáticos com o servidor de desenvolvimento
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, the development server doesn't serve any static files for your site
-(such as CSS files, images, things under ``MEDIA_URL`` and so forth).
+Por padrão, o servidor de desenvolvimento não serve nenhum arquivo estático para seu site
+(assim como arquivos CSS , imagens, arquivos dentro de ``MEDIA_URL`` e assim por diante).
 
 shell
 -----
 
-Starts the Python interactive interpreter.
+Inicia o interpretador interativo do Python.
 
-Django will use IPython (http://ipython.scipy.org/), if it's installed. If you
-have IPython installed and want to force use of the "plain" Python interpreter,
-use the ``--plain`` option, like so::
+Django usará IPython (http://ipython.scipy.org/), se estiver instalado. Se você 
+tem IPython instalado e quer forçar o uso do interpretador "simples" do Python,
+use a opção ``--plain``, dessa maneira::
 
     django-admin.py shell --plain
 
 sql <appname appname ...>
 -------------------------
 
-Prints the CREATE TABLE SQL statements for the given app name(s).
+Imprime as declerações CREATE TABLE SQL para o(s) nome(s) do aplicativo(s) dado(s).
 
 sqlall <appname appname ...>
 ----------------------------
 
-Prints the CREATE TABLE and initial-data SQL statements for the given app name(s).
+Imprime as declerações CREATE TABLE e initial-data SQL para o(s) nome(s) do aplicativo(s) dado(s).
 
-Refer to the description of ``sqlcustom`` for an explanation of how to
-specify initial data.
+COnsulte a descrição de ``sqlcustom`` para uma explicação de como
+especificar dados iniciais.
 
 sqlclear <appname appname ...>
 ------------------------------
 
-Prints the DROP TABLE SQL statements for the given app name(s).
+Imprime as declerações DROP TABLE SQL para o(s) nome(s) do aplicativo(s) dado(s).
 
 sqlcustom <appname appname ...>
 -------------------------------
